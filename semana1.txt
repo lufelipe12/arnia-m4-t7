@@ -1,0 +1,10 @@
+SEMANA 1. Sejam bem-vindos ao módulo de Nestjs.
+
+09/09.
+
+1- 
+
+a) Fazer a instalação do nest cli.
+b) Iniciar o primeiro projeto nest.
+c) Identificar as camadas.
+d) Rodar o projeto.
