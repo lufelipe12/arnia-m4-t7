@@ -8,3 +8,15 @@ a) Fazer a instalação do nest cli.
 b) Iniciar o primeiro projeto nest.
 c) Identificar as camadas.
 d) Rodar o projeto.
+
+10/09.
+
+Continuando no projeto anterior...
+
+1-
+
+a) Criar uma nova pasta dentro de src -> 'customers'
+b) Criar o novo módulo de 'customers'
+c) Criar o controller de 'customers'
+d) Criar o service de 'customers'
+e) Criar uma rota de criação de novo customer (firstName, lastName, age)
