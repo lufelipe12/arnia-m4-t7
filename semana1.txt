@@ -20,3 +20,17 @@ b) Criar o novo módulo de 'customers'
 c) Criar o controller de 'customers'
 d) Criar o service de 'customers'
 e) Criar uma rota de criação de novo customer (firstName, lastName, age)
+
+11/09.
+
+1-
+
+Continuando no projeto anterior...
+
+a) Criar uma rota de GET customers
+b) Adicionar query na rota de get customers para filtrar pela age
+c) Criar uma rota de GET customer pelo id
+d) Criar uma rota de PATCH de customer pelo id 
+
+** Desafio 1 -> Utilizar o parseIntPipe para o id das requisições.
+** Desafio 2 -> Deve ser lançada uma exceção nas questões "a" e "b" caso o customer não existir.
