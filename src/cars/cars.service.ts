@@ -9,7 +9,7 @@ export class CarsService {
 
   createCar(body: CreateCarDto) {
     const newCar = {
-      id: this.carsDb.length + 1,
+      id: new Date().getTime(),
       ...body,
       createdAt: new Date(),
     };
@@ -41,5 +41,13 @@ export class CarsService {
     Object.assign(carToUpdate, body);
 
     return carToUpdate;
+  }
+
+  deleteCarById(id: number) {
+    this.getCarById(id);
+
+    this.carsDb = this.carsDb.filter((car) => car.id !== id);
+
+    return { message: 'ok' };
   }
 }
