@@ -1,7 +1,17 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  Param,
+  ParseIntPipe,
+  Patch,
+} from '@nestjs/common';
 
 import { CarsService } from './cars.service';
-import { CreateCarDto } from './dto/create-car.dto';
+import { CreateCarDto } from './dtos/create-car.dto';
+import { UpdateCarDto } from './dtos/update-car.dto';
 
 @Controller('cars')
 export class CarsController {
@@ -10,5 +20,23 @@ export class CarsController {
   @Post()
   async create(@Body() payload: CreateCarDto) {
     return await this.carsService.create(payload);
+  }
+
+  @Get()
+  async show(@Query('color') color: string) {
+    return await this.carsService.show(color);
+  }
+
+  @Get(':id')
+  async findBy(@Param('id', ParseIntPipe) id: number) {
+    return await this.carsService.findBy(id);
+  }
+
+  @Patch(':id')
+  async updateBy(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateCarDto,
+  ) {
+    return await this.carsService.updateBy(id, payload);
   }
 }
