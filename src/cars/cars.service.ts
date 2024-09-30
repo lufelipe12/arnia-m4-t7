@@ -66,4 +66,17 @@ export class CarsService {
       throw new HttpException(error.message, error.status);
     }
   }
+
+  async deleteBy(id: number) {
+    try {
+      await this.findBy(id);
+
+      await this.carsRepository.softDelete(id);
+
+      return { response: 'ok' };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, error.status);
+    }
+  }
 }

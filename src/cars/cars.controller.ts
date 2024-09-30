@@ -7,6 +7,9 @@ import {
   Param,
   ParseIntPipe,
   Patch,
+  Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 
 import { CarsService } from './cars.service';
@@ -32,11 +35,18 @@ export class CarsController {
     return await this.carsService.findBy(id);
   }
 
+  @HttpCode(HttpStatus.CREATED)
   @Patch(':id')
   async updateBy(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateCarDto,
   ) {
     return await this.carsService.updateBy(id, payload);
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id')
+  async deleteBy(@Param('id', ParseIntPipe) id: number) {
+    return await this.carsService.deleteBy(id);
   }
 }
