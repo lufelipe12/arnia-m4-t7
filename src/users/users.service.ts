@@ -42,7 +42,10 @@ export class UsersService {
 
   async findBy(email: string) {
     try {
-      return await this.usersRepository.findOne({ where: { email } });
+      return await this.usersRepository.findOne({
+        where: { email },
+        select: { id: true, email: true, password: true, role: true },
+      });
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, error.status);
