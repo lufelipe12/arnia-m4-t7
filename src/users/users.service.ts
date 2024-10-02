@@ -1,9 +1,15 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  NotFoundException,
+  Request,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './dtos/create-user.dto';
 import { Users } from '../database/entities';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -48,6 +54,34 @@ export class UsersService {
       });
     } catch (error) {
       console.log(error);
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async findById(id: number) {
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+
+      if (!user) {
+        throw new NotFoundException(`An user with this id:${id} not found.`);
+      }
+
+      return user;
+    } catch (error) {
+      console.log(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async profile(request: Request) {
+    try {
+      const { userId } = request['user'];
+
+      return await this.findById(userId);
+    } catch (error) {
+      console.log(error);
+
       throw new HttpException(error.message, error.status);
     }
   }
