@@ -24,3 +24,10 @@ b) Rode o projeto e verifique se tabela foi criada corretamente.
 c) Crie uma nova resource de Adresses.
 d) Crie uma rota de post de Adresses (faça validações no dto).
 e) Crie uma rota de patch de Adresses
+
+02/10.
+
+1- 
+
+a) Crie um auth guard para proteção das rotas.
+b) Crie uma rota GET -> /users/profile utilizando o guard para retornar informações do usuário contido no token.
