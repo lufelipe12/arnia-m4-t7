@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './dtos/create-user.dto';
 import { Users } from '../database/entities';
+import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -79,6 +80,36 @@ export class UsersService {
       const { userId } = request['user'];
 
       return await this.findById(userId);
+    } catch (error) {
+      console.log(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async updateById(id: number, payload: UpdateUserDto) {
+    try {
+      const user = await this.findById(id);
+
+      await this.usersRepository.save(
+        this.usersRepository.merge(user, payload),
+      );
+
+      return user;
+    } catch (error) {
+      console.log(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async deleteBy(id: number) {
+    try {
+      await this.findById(id);
+
+      await this.usersRepository.softDelete(id);
+
+      return { response: 'ok' };
     } catch (error) {
       console.log(error);
 
