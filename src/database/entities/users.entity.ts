@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -11,6 +12,7 @@ import { BadRequestException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 import { RoleEnum } from '../../users/enums/role.enum';
+import { DriverLicenses } from './drivers-licenses.entity';
 
 @Entity('users')
 export class Users {
@@ -43,6 +45,9 @@ export class Users {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToOne(() => DriverLicenses, (dl) => dl.user)
+  driverLicense: DriverLicenses;
 
   @BeforeInsert()
   async passwordHash() {
