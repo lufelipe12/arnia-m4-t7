@@ -31,3 +31,11 @@ e) Crie uma rota de patch de Adresses
 
 a) Crie um auth guard para proteção das rotas.
 b) Crie uma rota GET -> /users/profile utilizando o guard para retornar informações do usuário contido no token.
+
+03/10.
+
+1- Ainda sobre o projeto criado anteriormente...
+
+a) Crie uma rota para buscar todos Adresses.
+b) Adicione na entidade Adress o relacionamento 1:1 com user (não pode ser nulo)
+c) Na rota profile do user, modifique para juntamente voltar o Adress do mesmo. (dica: typeORM relations)
