@@ -39,3 +39,15 @@ b) Crie uma rota GET -> /users/profile utilizando o guard para retornar informa�
 a) Crie uma rota para buscar todos Adresses.
 b) Adicione na entidade Adress o relacionamento 1:1 com user (não pode ser nulo)
 c) Na rota profile do user, modifique para juntamente voltar o Adress do mesmo. (dica: typeORM relations)
+
+04/10.
+
+Ainda sobre o projeto criado anteriormente...
+
+1-
+
+a) Crie uma nova entidade Pet (id, name, age, breed -> todos obrigatórios e user (relacionamento N:1) -> não pode ser nulo)
+b) Rode o projeto e verifique se tabela Pet foi criada corretamente.
+c) Crie uma rota para criação de Pets.
+d) Crie uma rota para buscar um pet pelo id, voltando também as informações do usuário relacionado.
+e) Modifique a rota de patch de Adresses para que somente o user pertencente ao Address possa modificá-lo.
