@@ -65,6 +65,7 @@ export class UsersService {
         where: { id },
         relations: {
           driverLicense: true,
+          cars: true,
         },
       });
 

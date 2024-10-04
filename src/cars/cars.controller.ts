@@ -11,6 +11,7 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 
 import { CarsService } from './cars.service';
@@ -28,9 +29,18 @@ export class CarsController {
     return await this.carsService.create(payload);
   }
 
+  @Post(':id/buy')
+  async buy(@Param('id', ParseIntPipe) id: number, @Request() req: Request) {
+    return await this.carsService.buy(id, req);
+  }
+
   @Get()
-  async show(@Query('color') color: string) {
-    return await this.carsService.show(color);
+  async show(
+    @Query('page', ParseIntPipe) page = 1,
+    @Query('limit', ParseIntPipe) limit = 5,
+    @Query('color') color: string,
+  ) {
+    return await this.carsService.show(page, limit, color);
   }
 
   @Get(':id')

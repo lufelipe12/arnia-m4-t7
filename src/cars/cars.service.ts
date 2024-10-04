@@ -1,9 +1,14 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  NotFoundException,
+  Request,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateCarDto } from './dtos/create-car.dto';
-import { Cars } from '../database/entities';
+import { Cars, Users } from '../database/entities';
 import { UpdateCarDto } from './dtos/update-car.dto';
 
 @Injectable()
@@ -26,11 +31,43 @@ export class CarsService {
     }
   }
 
-  async show(color: string) {
+  async buy(id: number, req: Request) {
     try {
-      return color
-        ? await this.carsRepository.find({ where: { color } })
-        : await this.carsRepository.find();
+      const car = await this.findBy(id);
+      const { userId } = req['user'];
+
+      car.user = { id: userId } as Users;
+
+      await this.carsRepository.save(car);
+
+      return await this.carsRepository.findOne({
+        where: { id },
+        relations: { user: true },
+      });
+    } catch (error) {
+      console.log(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async show(page: number, limit: number, color: string) {
+    try {
+      const pageOptions = { skip: (page - 1) * limit, take: limit };
+
+      const cars = color
+        ? await this.carsRepository.find({
+            where: { color },
+            ...pageOptions,
+          })
+        : await this.carsRepository.find({ ...pageOptions });
+
+      return {
+        page,
+        limit,
+        total: cars.length,
+        data: cars,
+      };
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, error.status);

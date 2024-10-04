@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -13,6 +14,7 @@ import * as bcrypt from 'bcrypt';
 
 import { RoleEnum } from '../../users/enums/role.enum';
 import { DriverLicenses } from './drivers-licenses.entity';
+import { Cars } from './cars.entity';
 
 @Entity('users')
 export class Users {
@@ -48,6 +50,9 @@ export class Users {
 
   @OneToOne(() => DriverLicenses, (dl) => dl.user)
   driverLicense: DriverLicenses;
+
+  @OneToMany(() => Cars, (cars) => cars.user)
+  cars: Cars[];
 
   @BeforeInsert()
   async passwordHash() {
