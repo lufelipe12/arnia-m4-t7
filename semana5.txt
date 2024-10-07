@@ -1,0 +1,20 @@
+SEMANA 5.
+
+07/10.
+
+1- Ainda sobre o projeto criado anteriormente...
+
+a) Crie uma rota de get -> /pets que retorna todos os pets juntamente com uma query para filtrá-los pela breed.
+b) Na rota de get profile adicione também as informações dos pets do usuário logado.
+c) Faça uma rota para update de pets. Obs: Somente o usuário dono do pet pode modificá-lo.
+d) Faça uma rota de get -> /pets/my-pets que retorna somente os pets do usuário logado.
+
+2- 
+
+a) Crie uma nova entidade Events (id, eventName, eventDate, participants (N:N com users)).
+b) Rode o projeto e veja a criação da tabela.
+c) Crie uma rota POST -> events.
+d) Crie uma rota para o usuário participar do evento. (sugestão -> /post -> /events/:id/participate).
+e) Na rota de get -> profile, puxar a relação com eventos também.
+
+** Desafio -> Faça a paginação da rota de get Pets.
