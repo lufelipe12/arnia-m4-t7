@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -15,6 +16,7 @@ import * as bcrypt from 'bcrypt';
 import { RoleEnum } from '../../users/enums/role.enum';
 import { DriverLicenses } from './drivers-licenses.entity';
 import { Cars } from './cars.entity';
+import { Auctions } from './auctions.entity';
 
 @Entity('users')
 export class Users {
@@ -53,6 +55,11 @@ export class Users {
 
   @OneToMany(() => Cars, (cars) => cars.user)
   cars: Cars[];
+
+  @ManyToMany(() => Auctions, (auctions) => auctions.users, {
+    onDelete: 'CASCADE',
+  })
+  auctions: Auctions[];
 
   @BeforeInsert()
   async passwordHash() {

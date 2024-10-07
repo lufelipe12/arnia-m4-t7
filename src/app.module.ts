@@ -6,15 +6,17 @@ import { CarsModule } from './cars/cars.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { DriverLicensesModule } from './driver-licenses/driver-licenses.module';
+import { AuctionsModule } from './auctions/auctions.module';
 
 @Module({
   imports: [
+    AuctionsModule,
     AuthModule,
     CarsModule,
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    UsersModule,
     DriverLicensesModule,
+    UsersModule,
   ],
 })
 export class AppModule {}
