@@ -6,7 +6,6 @@ import {
   UseGuards,
   Param,
   ParseIntPipe,
-  Request,
   Patch,
   Delete,
   HttpCode,
@@ -17,6 +16,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { CurrentUserDto } from '../auth/dtos/current-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -35,8 +36,8 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  async profile(@Request() request: Request) {
-    return await this.usersService.profile(request);
+  async profile(@CurrentUser() currentUser: CurrentUserDto) {
+    return await this.usersService.profile(currentUser);
   }
 
   @UseGuards(AuthGuard)

@@ -12,12 +12,15 @@ import {
   HttpStatus,
   UseGuards,
   Request,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { CarsService } from './cars.service';
 import { CreateCarDto } from './dtos/create-car.dto';
 import { UpdateCarDto } from './dtos/update-car.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @UseGuards(AuthGuard)
 @Controller('cars')
@@ -28,6 +31,31 @@ export class CarsController {
   async create(@Body() payload: CreateCarDto) {
     return await this.carsService.create(payload);
   }
+
+  @UseInterceptors(
+    FileInterceptor('photo', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+          const [name, extension] = file.originalname.split('.');
+
+          const newFileName = `${name}_${new Date().getTime()}.${extension}`;
+
+          cb(null, newFileName);
+        },
+      }),
+
+      fileFilter: (req, file, cb) => {
+        if (!file.originalname.match(/\.(jpeg|jpg|png)$/)) {
+          cb(null, false);
+        }
+
+        cb(null, true);
+      },
+    }),
+  )
+  @Post('upload-photo')
+  async uploadPhoto() {}
 
   @Post(':id/buy')
   async buy(@Param('id', ParseIntPipe) id: number, @Request() req: Request) {

@@ -3,7 +3,6 @@ import {
   HttpException,
   Injectable,
   NotFoundException,
-  Request,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -11,6 +10,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { Users } from '../database/entities';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { CurrentUserDto } from '../auth/dtos/current-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -82,11 +82,9 @@ export class UsersService {
     }
   }
 
-  async profile(request: Request) {
+  async profile(currentUser: CurrentUserDto) {
     try {
-      const { userId } = request['user'];
-
-      return await this.findById(userId);
+      return await this.findById(currentUser.userId);
     } catch (error) {
       console.log(error);
 
