@@ -4,10 +4,12 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Users } from './users.entity';
+import { CarPhotos } from './car-photos.entity';
 
 @Entity('cars')
 export class Cars {
@@ -37,6 +39,9 @@ export class Cars {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(() => CarPhotos, (cf) => cf.car)
+  carPhotos: CarPhotos;
 
   @ManyToOne(() => Users, (user) => user.cars, { onDelete: 'SET NULL' })
   user: Users;

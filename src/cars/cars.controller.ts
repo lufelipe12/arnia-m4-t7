@@ -13,6 +13,8 @@ import {
   UseGuards,
   Request,
   UseInterceptors,
+  UploadedFile,
+  Res,
 } from '@nestjs/common';
 
 import { CarsService } from './cars.service';
@@ -21,6 +23,7 @@ import { UpdateCarDto } from './dtos/update-car.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { Response } from 'express';
 
 @UseGuards(AuthGuard)
 @Controller('cars')
@@ -54,8 +57,13 @@ export class CarsController {
       },
     }),
   )
-  @Post('upload-photo')
-  async uploadPhoto() {}
+  @Post(':id/upload-photo')
+  async uploadPhoto(
+    @Param('id', ParseIntPipe) id: number,
+    @UploadedFile() photo: Express.Multer.File,
+  ) {
+    return await this.carsService.uploadPhoto(id, photo);
+  }
 
   @Post(':id/buy')
   async buy(@Param('id', ParseIntPipe) id: number, @Request() req: Request) {
@@ -69,6 +77,11 @@ export class CarsController {
     @Query('color') color: string,
   ) {
     return await this.carsService.show(page, limit, color);
+  }
+
+  @Get('photos/:filename')
+  async getPhoto(@Param('filename') filename: string, @Res() res: Response) {
+    res.sendFile(filename, { root: './uploads' });
   }
 
   @Get(':id')

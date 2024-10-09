@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpException,
   Injectable,
   NotFoundException,
@@ -8,14 +9,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateCarDto } from './dtos/create-car.dto';
-import { Cars, Users } from '../database/entities';
+import { CarPhotos, Cars, Users } from '../database/entities';
 import { UpdateCarDto } from './dtos/update-car.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CarsService {
   constructor(
     @InjectRepository(Cars)
     private carsRepository: Repository<Cars>,
+
+    @InjectRepository(CarPhotos)
+    private carPhotosRepository: Repository<CarPhotos>,
+
+    private configService: ConfigService,
   ) {}
 
   async create(payload: CreateCarDto) {
@@ -27,7 +34,30 @@ export class CarsService {
       return newCar;
     } catch (error) {
       console.log(error);
-      throw new HttpException(error.message, error.statusCode);
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async uploadPhoto(id: number, photo: Express.Multer.File) {
+    try {
+      if (!photo) {
+        throw new BadRequestException('Invalid photo type');
+      }
+
+      await this.findBy(id);
+
+      const photoUrl = `${this.configService.get('BASE_URL')}${this.configService.get('PORT')}/v1/cars/photos/${photo.filename}`;
+
+      const newCarPhoto = this.carPhotosRepository.create({
+        car: { id },
+        url: photoUrl,
+      });
+      await this.carPhotosRepository.save(newCarPhoto);
+
+      return newCarPhoto;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, error.status);
     }
   }
 
@@ -76,7 +106,10 @@ export class CarsService {
 
   async findBy(id: number) {
     try {
-      const car = await this.carsRepository.findOne({ where: { id } });
+      const car = await this.carsRepository.findOne({
+        where: { id },
+        relations: { carPhotos: true },
+      });
 
       if (!car) {
         throw new NotFoundException(`A car with this id:${id} not found.`);
