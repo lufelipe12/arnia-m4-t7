@@ -12,7 +12,9 @@ import {
 import { AuctionsService } from './auctions.service';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { CreateAuctionDto } from './dtos/create-auction.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auctions')
 @UseGuards(AuthGuard)
 @Controller('auctions')
 export class AuctionsController {

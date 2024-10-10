@@ -24,7 +24,9 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('cars')
 @UseGuards(AuthGuard)
 @Controller('cars')
 export class CarsController {
