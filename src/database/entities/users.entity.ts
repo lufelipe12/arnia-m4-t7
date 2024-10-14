@@ -51,15 +51,15 @@ export class Users {
   deletedAt: Date;
 
   @OneToOne(() => DriverLicenses, (dl) => dl.user)
-  driverLicense: DriverLicenses;
+  driverLicense?: DriverLicenses;
 
   @OneToMany(() => Cars, (cars) => cars.user)
-  cars: Cars[];
+  cars?: Cars[];
 
   @ManyToMany(() => Auctions, (auctions) => auctions.users, {
     onDelete: 'CASCADE',
   })
-  auctions: Auctions[];
+  auctions?: Auctions[];
 
   @BeforeInsert()
   async passwordHash() {

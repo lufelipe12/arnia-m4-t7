@@ -7,7 +7,7 @@ describe('Math functions', () => {
     expect(result).toBe(3);
   });
 
-  it('1 - 1 = 0', () => {
+  test('1 - 1 = 0', () => {
     const result = subtraction(1, 1);
 
     expect(result).toEqual(0);

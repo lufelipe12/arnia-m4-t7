@@ -1,18 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { UsersService } from './users.service';
+import { createUserMock, usersRepositoryMock } from '../testing';
 
-describe('UsersService', () => {
-  let service: UsersService;
+describe('Users Service', () => {
+  let usersService: UsersService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
+      providers: [UsersService, usersRepositoryMock],
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
+    usersService = module.get<UsersService>(UsersService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('Should be defined', () => {
+    expect(usersService).toBeDefined();
+  });
+
+  describe('Create', () => {
+    it('Should create an new user', async () => {
+      const result = await usersService.create(createUserMock);
+
+      expect(result).toHaveProperty('id');
+    });
   });
 });
