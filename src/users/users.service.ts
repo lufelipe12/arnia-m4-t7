@@ -94,13 +94,11 @@ export class UsersService {
 
   async updateById(id: number, payload: UpdateUserDto) {
     try {
-      const user = await this.findById(id);
+      await this.findById(id);
 
-      await this.usersRepository.save(
-        this.usersRepository.merge(user, payload),
-      );
+      await this.usersRepository.update(id, payload);
 
-      return user;
+      return this.usersRepository.findOneBy({ id });
     } catch (error) {
       console.log(error);
 
