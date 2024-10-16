@@ -1,18 +1,32 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import * as bcrypt from 'bcrypt';
+
 import { AuthService } from './auth.service';
+import { jwtServiceMock, loginMock, usersServiceMock } from '../testing';
 
-describe('AuthService', () => {
-  let service: AuthService;
+describe('Auth Service', () => {
+  let authService: AuthService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
+      providers: [AuthService, usersServiceMock, jwtServiceMock],
     }).compile();
 
-    service = module.get<AuthService>(AuthService);
+    authService = module.get<AuthService>(AuthService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('Should be defined', () => {
+    expect(authService).toBeDefined();
+  });
+
+  describe('Authentication', () => {
+    it('Should return a token for user authorization', async () => {
+      jest.spyOn(bcrypt, 'compareSync').mockReturnValueOnce(true);
+
+      const result = await authService.login(loginMock);
+
+      expect(result).toHaveProperty('accessToken');
+      expect(typeof result.accessToken).toEqual('string');
+    });
   });
 });
