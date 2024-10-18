@@ -1,18 +1,38 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { CarsService } from './cars.service';
+import {
+  carPhotosRepositoryMock,
+  carsRepositoryMock,
+  configServiceMock,
+} from '../testing';
+import { getFileMock } from '../testing/cars/get-file.mock';
 
-describe('CarsService', () => {
-  let service: CarsService;
+describe('Cars Service', () => {
+  let carsService: CarsService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [CarsService],
+      providers: [
+        CarsService,
+        carsRepositoryMock,
+        carPhotosRepositoryMock,
+        configServiceMock,
+      ],
     }).compile();
 
-    service = module.get<CarsService>(CarsService);
+    carsService = module.get<CarsService>(CarsService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('Should be defined', () => {
+    expect(carsService).toBeDefined();
+  });
+
+  describe('Create', () => {
+    it('Should upload a photo', async () => {
+      const result = await carsService.uploadPhoto(1, await getFileMock());
+
+      expect(result).toHaveProperty('id');
+    });
   });
 });
