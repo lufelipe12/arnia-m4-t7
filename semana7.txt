@@ -5,3 +5,31 @@ SEMANA 7.
 1- Ainda sobre o projeto criado anteriormente.
 
 a) Crie testes e2e para o users. (não será necessário a conexão real com o banco.)
+
+22/10.
+
+1- Criar um repositório Git local e fazer o primeiro commit
+
+a) Crie uma nova pasta no computador.
+b) Inicializar um repositório Git dentro dessa pasta - git init
+c) Criar um arquivo de texto simples (ex: README.md).
+d) Adicionar conteúdo no arquivo, adicionar ao staging e fazer o commit.
+
+2- Clonar um repositório remoto
+
+a) Clonar um repositório público do GitHub (pode ser o de exercícios da aula) ou outra plataforma de hospedagem.
+b) Navegar até o repositório clonado.
+c) Criar uma nova branch chamada feature/aula.
+d) Mudar para a branch recém-criada.
+
+3- Criar um repositório no Github e fazer commits
+
+a) Crie um repositório no Github
+b) Faça um clone do repositório
+c) Crie um arquivo readme
+d) Faça o commit desse arquivo e suba as alterações
+e) Mude para uma nova branch
+f) Apague o conteúdo do REAME e escreva novas informações
+g) Faça o commit das alterações
+h) Suba as alterações
+i) Faça o merge da nova branch com a main (corrija possíveis conflitos)
