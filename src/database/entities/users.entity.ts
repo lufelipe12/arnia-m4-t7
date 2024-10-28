@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -8,6 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import { BadGatewayException } from '@nestjs/common';
 
 import { RoleEnum } from '../../enums/role.enum';
 import { Subjects } from './subjects.entity';
@@ -30,7 +33,7 @@ export class Users {
   password: string;
 
   @Column({ type: 'enum', enum: RoleEnum, default: RoleEnum.S })
-  role: RoleEnum;
+  role?: RoleEnum;
 
   @Column({ type: 'date' })
   birthDate: Date;
@@ -49,4 +52,15 @@ export class Users {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @BeforeInsert()
+  async hashPassword() {
+    try {
+      this.password = await bcrypt.hash(this.password, 10);
+    } catch (error) {
+      console.error(error);
+
+      throw new BadGatewayException('Error trying to hash password');
+    }
+  }
 }
