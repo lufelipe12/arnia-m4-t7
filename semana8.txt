@@ -1,0 +1,13 @@
+SEMANA 8.
+
+28/10.
+
+1- Continuando...
+
+a) Crie uma rota de login em auth.
+b) Crie rota de get -> /users
+c) Crie rota de get -> /users/:id
+d) Crie uma rota de patch -> /users/:id
+e) Crie uma rota de post -> /houses
+f) Crie uma rota de get -> /houses
+g) Crie uma rota de get -> /houses/:id
