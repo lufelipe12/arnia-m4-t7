@@ -68,7 +68,10 @@ export class AuthService {
 
   private async findOneBy(email: string) {
     try {
-      return await this.usersRepository.findOne({ where: { email } });
+      return await this.usersRepository.findOne({
+        where: { email },
+        select: { password: true, id: true, email: true, role: true },
+      });
     } catch (error) {
       console.error(error);
 

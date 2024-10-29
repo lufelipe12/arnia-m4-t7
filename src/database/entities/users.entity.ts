@@ -29,7 +29,7 @@ export class Users {
   @Column({ type: 'varchar', length: 128, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 128 })
+  @Column({ type: 'varchar', length: 128, select: false })
   password: string;
 
   @Column({ type: 'enum', enum: RoleEnum, default: RoleEnum.S })
