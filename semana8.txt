@@ -11,3 +11,12 @@ d) Crie uma rota de patch -> /users/:id
 e) Crie uma rota de post -> /houses
 f) Crie uma rota de get -> /houses
 g) Crie uma rota de get -> /houses/:id
+
+29/10.
+
+1- ...
+
+a) Crie o AuthGuard
+b) Crie um decorator de Roles
+c) Crie um RoleGuard
+d) Proteja as rotas de criação de casas para que somente seller possa registrá-la.
