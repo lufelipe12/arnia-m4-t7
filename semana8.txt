@@ -27,3 +27,10 @@ d) Proteja as rotas de criação de casas para que somente seller possa registr�
 
 a) Crie uma rota para um usuário comprar uma casa, o sellerId deve ficar null
 b) Faça uma documentação pro projeto elaborado até agora com Swagger
+
+31/10.
+
+1-
+
+a) Crie uma rota para reativar a casa deletada.
+b) Faça uma rota para mudar a senha do usuário, onde somente o user possa alterar a própria senha.
