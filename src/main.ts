@@ -20,7 +20,12 @@ async function bootstrap() {
   SwaggerModule.setup('v1/docs', app, documentFactory);
 
   app.setGlobalPrefix('v1/');
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      forbidNonWhitelisted: true,
+      whitelist: true,
+    }),
+  );
   await app.listen(configService.get('PORT') || 3000);
 }
 bootstrap();
