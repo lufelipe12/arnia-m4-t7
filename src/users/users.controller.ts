@@ -16,6 +16,7 @@ import { RoleEnum } from '../enums/role.enum';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { CurrentUserDto } from './dto/current-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('users')
@@ -42,7 +43,7 @@ export class UsersController {
   @Patch()
   async update(
     @CurrentUser() currentUser: CurrentUserDto,
-    @Body() payload: any,
+    @Body() payload: UpdateUserDto,
   ) {
     return await this.usersService.update(currentUser.userId, payload);
   }
