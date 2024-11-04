@@ -1,0 +1,8 @@
+SEMANA 9.
+
+04/11.
+
+1- ...
+
+a) Teste o serviço de register de user.
+b) Teste o serviço de login.
