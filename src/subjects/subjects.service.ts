@@ -1,9 +1,16 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository, ILike } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateSubjectDto } from './dto/create-subject.dto';
-import { Subjects } from '../database/entities';
+import { Subjects, Users } from '../database/entities';
+import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { CurrentUserDto } from 'src/users/dto/current-user.dto';
 
 @Injectable()
 export class SubjectsService {
@@ -40,11 +47,80 @@ export class SubjectsService {
     }
   }
 
-  async find(name: string) {
+  async addStudent(id: number, currentUser: CurrentUserDto) {
     try {
-      return await this.subjectsRepository.find({
-        where: { name: ILike(`%${name}%`) },
+      const subject = await this.subjectsRepository.findOne({
+        where: { id },
+        relations: { students: true },
       });
+
+      if (!subject) {
+        throw new NotFoundException(`A subject with this id: ${id} not found.`);
+      }
+
+      subject.students.push({ id: currentUser.userId } as Users);
+
+      await this.subjectsRepository.save(subject);
+
+      return await this.findOne(id);
+    } catch (error) {
+      console.error(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async find(name?: string) {
+    try {
+      const findOptions = name ? { name: ILike(`%${name}%`) } : {};
+
+      return await this.subjectsRepository.find({
+        where: findOptions,
+      });
+    } catch (error) {
+      console.error(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async findOne(id: number) {
+    try {
+      const subject = await this.subjectsRepository.findOne({ where: { id } });
+
+      if (!subject) {
+        throw new NotFoundException(`A subject with this id: ${id} not found.`);
+      }
+
+      return subject;
+    } catch (error) {
+      console.error(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async update(id: number, payload: UpdateSubjectDto) {
+    try {
+      await this.findOne(id);
+
+      await this.subjectsRepository.update(id, payload);
+
+      return await this.findOne(id);
+    } catch (error) {
+      console.error(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async delete(id: number) {
+    try {
+      await this.findOne(id);
+
+      await this.subjectsRepository.softDelete(id);
+
+      return { message: 'ok' };
     } catch (error) {
       console.error(error);
 
