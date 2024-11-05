@@ -10,13 +10,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { Subjects, Users } from '../database/entities';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
-import { CurrentUserDto } from 'src/users/dto/current-user.dto';
+import { CurrentUserDto } from '../users/dto/current-user.dto';
+import { UsersService } from '../users/users.service';
+import { RoleEnum } from '../enums/role.enum';
 
 @Injectable()
 export class SubjectsService {
   constructor(
     @InjectRepository(Subjects)
     private subjectsRepository: Repository<Subjects>,
+
+    private usersService: UsersService,
   ) {}
 
   async create(payload: CreateSubjectDto) {
@@ -61,6 +65,35 @@ export class SubjectsService {
       subject.students.push({ id: currentUser.userId } as Users);
 
       await this.subjectsRepository.save(subject);
+
+      return await this.findOne(id);
+    } catch (error) {
+      console.error(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async addInstructor(id: number, instructorId: number) {
+    try {
+      const subject = await this.subjectsRepository.findOne({
+        where: { id },
+        relations: { instructor: true },
+      });
+
+      if (!subject) {
+        throw new NotFoundException(`A subject with this id: ${id} not found.`);
+      }
+
+      const instructor = await this.usersService.findOne(instructorId);
+
+      if (instructor.role !== RoleEnum.I) {
+        throw new BadRequestException('This user is not an instructor.');
+      }
+
+      subject.instructor = instructor;
+
+      await this.subjectsRepository.update(id, subject);
 
       return await this.findOne(id);
     } catch (error) {

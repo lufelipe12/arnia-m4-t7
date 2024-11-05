@@ -42,6 +42,16 @@ export class SubjectsController {
     return await this.subjectsService.addStudent(id, currentUser);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(RoleEnum.A)
+  @Post(':id/instructors/:instructorId')
+  async addInstructor(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('instructorId', ParseIntPipe) instructorId: number,
+  ) {
+    return await this.subjectsService.addInstructor(id, instructorId);
+  }
+
   @Get()
   async find(@Query('name') name?: string) {
     return await this.subjectsService.find(name);
