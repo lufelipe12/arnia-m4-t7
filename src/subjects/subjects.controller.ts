@@ -20,7 +20,9 @@ import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { CurrentUserDto } from '../users/dto/current-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('subjects')
 @Controller('subjects')
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
