@@ -1,5 +1,5 @@
 ## Descrição
-Este projeto foi desenvolvido com o objetivo de demonstrar uma aplicação completa aos alunos da Arnia do módulo de backend avançado com Nestjs. Pra isso foi desenvolvida uma API que cuida do gerenciamento de Usuários (administradores, estudantes e instrutores) e suas matérias relacionadas. Link para a documentação do projeto [aqui]().
+Este projeto foi desenvolvido com o objetivo de demonstrar uma aplicação completa aos alunos da Arnia do módulo de backend avançado com Nestjs. Pra isso foi desenvolvida uma API que cuida do gerenciamento de Usuários (administradores, estudantes e instrutores) e suas matérias relacionadas. Link para a documentação do projeto [aqui](https://arnia-m4-t7-production.up.railway.app/v1/docs).
 
 ## Tecnologias
 - [Nestjs](https://docs.nestjs.com/): Framework Nodejs + Express para o desenvolvimento da API.
